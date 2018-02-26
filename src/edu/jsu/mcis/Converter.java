@@ -52,12 +52,54 @@ public class Converter {
             List<String[]> full = reader.readAll();
             Iterator<String[]> iterator = full.iterator();
             
+            StringWriter writer = new StringWriter();
+            CSVWriter csvWriter = new CSVWriter(writer, ',', '"', '\n');
+            //String[] csvData;
+            //csvData.put("colHeaders", colHeaders);
+            // csvWriter.writeNext(csvData);
+            
             JSONObject jsonObject = new JSONObject();
             
             // INSERT YOUR CODE HERE
             
+            String[] cols = full.get(0);
+            JSONArray colHeaders = new JSONArray();
+            
+            for(String field : cols){
+                colHeaders.add(field);
+            }
+            
+            ArrayList<String> rows;
+            JSONArray rowHeaders = new JSONArray();
+            rows = new ArrayList<>();
+            
+            for(int i =1; i < full.size(); i++){
+                rows.add(full.get(i)[0]);
+            }
+            
+            rowHeaders.addAll(rows);
+            
+            for(String report : rows){
+                rowHeaders.add(report);
+            }
+            
+            jsonObject.put("colHeaders", colHeaders);
+            
+            String[] csvData = null; 
+            csvWriter.writeNext(csvData);
+            csvString = writer.toString();
+            
+            
+            String[] line = iterator.next();
+            for (String field : line) { System.out.println(field); }
+            
+            
+            
+            //nested data structures, an array inside and array.
+            //converted into Integers.
         }
-        
+            
+         
         catch(IOException e) { return e.toString(); }
         
         return results.trim();
@@ -73,10 +115,34 @@ public class Converter {
             JSONParser parser = new JSONParser();
             JSONObject jsonObject = (JSONObject)parser.parse(jsonString);
             
+            
+            List<String[]> full = null; // (assume that this is filled with data)
+            //Iterator<String[]> iterator = full.iterator();
+
+            
             StringWriter writer = new StringWriter();
             CSVWriter csvWriter = new CSVWriter(writer, ',', '"', '\n');
             
             // INSERT YOUR CODE HERE
+            //same process as CSVtojson, just reversed
+            
+            JSONArray records = new JSONArray(); // Container for all records
+            String[] record;
+
+            /*while (iterator.hasNext()) { // Iterate through all records
+                record = iterator.next(); // Get next record
+                jsonObject = new JSONObject(); // Create new JSON object container
+                
+                for (int i = 0; i < headings.length; ++i) { // Iterate through column headings
+                    jsonObject.put(headings[i], record[i]); // Pair headings with fields
+                }
+                records.add(jsonObject); // Add JSON object to JSONArray
+            }
+            jsonObject = new JSONObject();
+
+            LinkedHashMap<String, String> JsonObject;
+            JsonObject = new LinkedHashMap<>();
+*/
             
         }
         
